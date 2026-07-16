@@ -30,27 +30,27 @@ This project is built around **native JavaScript Promises** to demonstrate concu
 ```mermaid
 sequenceDiagram
     participant User as Client Browser
-    participant Loop as Node.js Event Loop
+    participant EventLoop as Node.js Event Loop
     participant OS as OS Network Stack
     participant APIs as wttr.in / er-api.com / adviceslip.com
 
-    User->>Loop: Fetch /api/dashboard?location=Paris
-    Note over Loop: Initiates 3 outgoing HTTP requests
-    Loop->>OS: Request 1 (Weather for Paris)
-    Loop->>OS: Request 2 (Currency USD rates)
-    Loop->>OS: Request 3 (Advice Slip)
-    Note over Loop: Event Loop is instantly FREE<br/>to serve other clients!
+    User->>EventLoop: Fetch /api/dashboard?location=Paris
+    Note over EventLoop: Initiates 3 outgoing HTTP requests
+    EventLoop->>OS: Request 1 (Weather for Paris)
+    EventLoop->>OS: Request 2 (Currency USD rates)
+    EventLoop->>OS: Request 3 (Advice Slip)
+    Note over EventLoop: Event Loop is instantly FREE<br/>to serve other clients!
     
     OS->>APIs: Fires concurrent network sockets
     APIs-->>OS: Sends responses (non-blocking)
     
-    OS-->>Loop: Resolves Request 3 -> Queue Callback
-    OS-->>Loop: Resolves Request 1 -> Queue Callback
-    OS-->>Loop: Resolves Request 2 -> Queue Callback
+    OS-->>EventLoop: Resolves Request 3 -> Queue Callback
+    OS-->>EventLoop: Resolves Request 1 -> Queue Callback
+    OS-->>EventLoop: Resolves Request 2 -> Queue Callback
     
-    Note over Loop: Microtask queue executes callbacks
-    Note over Loop: Promise.allSettled resolves
-    Loop->>User: Responds with aggregated JSON payload
+    Note over EventLoop: Microtask queue executes callbacks
+    Note over EventLoop: Promise.allSettled resolves
+    EventLoop->>User: Responds with aggregated JSON payload
 ```
 
 ---
