@@ -1,0 +1,5 @@
+# Local Frontend Ignore Rules
+node_modules/
+dist/
+dist-ssr/
+*.local
